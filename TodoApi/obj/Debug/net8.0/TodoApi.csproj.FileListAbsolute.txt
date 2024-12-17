@@ -275,3 +275,6 @@
 /Users/admin/Documents/GitHub/startup-back/TodoApi/bin/Debug/net8.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
 /Users/admin/Documents/GitHub/startup-back/TodoApi/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
 /Users/admin/Documents/GitHub/startup-back/TodoApi/bin/Debug/net8.0/runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll
+/Users/admin/Documents/GitHub/startup-back/TodoApi/obj/Debug/net8.0/TodoApi.sourcelink.json
+/Users/admin/Documents/GitHub/startup-back/TodoApi/bin/Debug/net8.0/Npgsql.dll
+/Users/admin/Documents/GitHub/startup-back/TodoApi/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
