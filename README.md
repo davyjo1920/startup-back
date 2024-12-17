@@ -2,7 +2,6 @@
 docker run --name some-sostgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 
 # manual app launch
-Cd TodoApi\
 dotnet ef database update\
 dotnet run
 
