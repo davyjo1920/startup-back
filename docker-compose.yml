@@ -12,9 +12,10 @@ services:
 
   frontend:
     build:
-      context: ../startup/
+      context: ../startup-front/
     ports:
       - "3000:80"
+    container_name: react-container
 
   postgres:
     image: postgres

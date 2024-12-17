@@ -8238,11 +8238,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/admin/Documents/GitHub/startup-back/TodoApi/TodoApi.csproj",
+      "projectUniqueName": "/Users/admin/Documents/GitHub/startup-back/TodoApi.csproj",
       "projectName": "TodoApi",
-      "projectPath": "/Users/admin/Documents/GitHub/startup-back/TodoApi/TodoApi.csproj",
+      "projectPath": "/Users/admin/Documents/GitHub/startup-back/TodoApi.csproj",
       "packagesPath": "/Users/admin/.nuget/packages/",
-      "outputPath": "/Users/admin/Documents/GitHub/startup-back/TodoApi/obj/",
+      "outputPath": "/Users/admin/Documents/GitHub/startup-back/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/admin/.nuget/NuGet/NuGet.Config"

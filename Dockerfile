@@ -1,14 +1,21 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 5256
+FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:35792ea4ad1db051981f62b313f1be3b46b1f45cadbaa3c288cd0d3056eefb83 AS build-env
+WORKDIR /App
+ENV PORT=5256
+ENV ASPNETCORE_URLS=http://+:5256
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY . .
+# Copy everything
+COPY . ./
+# Restore as distinct layers
 RUN dotnet restore
-RUN dotnet publish -c Release -o /app
+# Build and publish a release
+RUN dotnet publish  -o out
 
-FROM base AS final
-WORKDIR /app
-COPY --from=build /app .
-ENTRYPOINT ["dotnet", "MyApp.dll"]
+# Build runtime image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:6c4df091e4e531bb93bdbfe7e7f0998e7ced344f54426b7e874116a3dc3233ff
+EXPOSE 5256
+WORKDIR /App
+COPY --from=build-env /App/out .
+
+ENV ASPNETCORE_URLS=http://+:5256
+
+ENTRYPOINT ["dotnet", "TodoApi.dll"]
