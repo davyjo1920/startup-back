@@ -1,0 +1,40 @@
+# Исключаем папки сборки
+bin/
+obj/
+
+# Исключаем пользовательские файлы конфигурации
+*.user
+*.suo
+*.vsp
+*.log
+*.sln.docstates
+
+# Исключаем локальные настройки IDE
+.vscode/
+.idea/
+*.iml
+
+# Игнорируем git-файлы
+.git/
+.gitignore
+
+# Игнорируем артефакты Docker
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+
+# Исключаем результаты публикации
+publish/
+*.pid
+
+# Игнорируем локальные секреты и временные файлы
+secrets/
+*.env
+appsettings.Development.json
+appsettings.Local.json
+
+# Общие временные файлы
+*.tmp
+*.temp
+*.cache
+~*  # временные файлы, начинающиеся с ~

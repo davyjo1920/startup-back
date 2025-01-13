@@ -4,7 +4,7 @@ services:
     build:
       context: ./
     ports:
-      - "52560:5256"
+      - "5256:5256"
     environment:
       - ASPNETCORE_URLS=http://+:5256
     depends_on:

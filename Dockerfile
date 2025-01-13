@@ -3,6 +3,10 @@ WORKDIR /App
 ENV PORT=5256
 ENV ASPNETCORE_URLS=http://+:5256
 
+# RUN dotnet tool install --global dotnet-ef
+
+# ENV PATH="${PATH}:/root/.dotnet/tools"
+
 # Copy everything
 COPY . ./
 # Restore as distinct layers

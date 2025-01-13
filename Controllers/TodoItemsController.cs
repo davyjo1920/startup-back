@@ -8,9 +8,9 @@ namespace TodoApi.Controllers;
 [ApiController]
 public class TodoItemsController : ControllerBase
 {
-    private readonly TodoContext _context;
+    private readonly Models.MarketplaceContext _context;
 
-    public TodoItemsController(TodoContext context)
+    public TodoItemsController(Models.MarketplaceContext context)
     {
         _context = context;
     }
@@ -19,6 +19,13 @@ public class TodoItemsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<TodoItemDTO>>> GetTodoItems()
     {
+        _context.TodoItems.Add(new TodoItem
+        {
+            IsComplete = true,
+            Name = "qwsfs"
+        });
+        await _context.SaveChangesAsync();
+
         return await _context.TodoItems
             .Select(x => ItemToDTO(x))
             .ToListAsync();
