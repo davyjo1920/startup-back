@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
             _context.Privates.Add(new Private
             {
                 Login = privateRegisterRequestDTO.Login,
-                PasswordHash = privateRegisterRequestDTO.Password,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(privateRegisterRequestDTO.Password),
                 BirthDate = privateRegisterRequestDTO.BirthDate
             });
             await _context.SaveChangesAsync();
@@ -47,7 +47,7 @@ public class AuthController : ControllerBase
         }
     }
 
-    [HttpPost("login")]
+    [HttpPost("private/login")]
     public async Task<PrivateLoginResponseDTO> Login([FromBody] PrivateLoginRequestDTO model)
     {
         var user = _context.Privates.SingleOrDefault(u => u.Login == model.Login);
@@ -57,4 +57,20 @@ public class AuthController : ControllerBase
         var token = _jwtService.GenerateJwtToken(user.Login);
         return new PrivateLoginResponseDTO{ Success = true, Token = token };
     }
+
+
+    // // GET: api/TodoItems/5
+    // // <snippet_GetByID>
+    // [HttpGet("{id}")]
+    // public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
+    // {
+    //     var todoItem = await _context.TodoItems.FindAsync(id);
+
+    //     if (todoItem == null)
+    //     {
+    //         return NotFound();
+    //     }
+
+    //     return ItemToDTO(todoItem);
+    // }
 }
