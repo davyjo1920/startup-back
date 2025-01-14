@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApi.Models;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TodoApi.Controllers;
 
@@ -59,18 +60,11 @@ public class AuthController : ControllerBase
     }
 
 
-    // // GET: api/TodoItems/5
-    // // <snippet_GetByID>
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
-    // {
-    //     var todoItem = await _context.TodoItems.FindAsync(id);
-
-    //     if (todoItem == null)
-    //     {
-    //         return NotFound();
-    //     }
-
-    //     return ItemToDTO(todoItem);
-    // }
+    // Тестовый метод для проверки авторизации
+    [Authorize]
+    [HttpGet("testauth")]
+    public string GetTodoItem(long id)
+    {
+       return "OK";
+    }
 }
