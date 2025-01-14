@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Migrations
 {
     [DbContext(typeof(MarketplaceContext))]
-    [Migration("20250113193441_InitialCreate")]
+    [Migration("20250114185009_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

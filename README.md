@@ -16,4 +16,5 @@ dotnet ef migrations add seedData
 dotnet ef database update
 dotnet run
 
-
+## Для создания новой миграции ##
+dotnet ef migrations add InitialCreate 
