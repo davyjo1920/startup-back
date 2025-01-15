@@ -49,21 +49,39 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("private/login")]
-    public async Task<PrivateLoginResponseDTO> Login([FromBody] PrivateLoginRequestDTO model)
+    public async Task<PrivateLoginResponseDTO> LoginPrivate([FromBody] PrivateLoginRequestDTO model)
     {
         var user = _context.Privates.SingleOrDefault(u => u.Login == model.Login);
         if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             return new PrivateLoginResponseDTO{ Success = false };
 
-        var token = _jwtService.GenerateJwtToken(user.Login);
+        var token = _jwtService.GenerateJwtToken(user.Login, "Private");
         return new PrivateLoginResponseDTO{ Success = true, Token = token };
     }
 
+    [HttpPost("admin/login")]
+    public async Task<AdminLoginResponseDTO> LoginAdmin([FromBody] AdminLoginRequestDTO model)
+    {
+       if (model.Login != "Mamoeb3000" || model.Password != "SosyBiby@s0bake11"){
+        return new AdminLoginResponseDTO{ Success = false };
+       }
+       
+       var token = _jwtService.GenerateJwtToken(model.Login, "Admin");
+       return new AdminLoginResponseDTO{ Success = true, Token = token };
+    }
 
-    // Тестовый метод для проверки авторизации
-    [Authorize]
-    [HttpGet("testauth")]
-    public string GetTodoItem(long id)
+    // Тестовый метод для проверки авторизации admin
+    [Authorize(Roles = "Admin")]
+    [HttpGet("testauthAdmin")]
+    public string TestAdminLMethod(long id)
+    {
+       return "OK";
+    }
+
+// Тестовый метод для проверки авторизации private
+    [Authorize(Roles = "Private")]
+    [HttpGet("testauthPrivate")]
+    public string TestPrivateMethod(long id)
     {
        return "OK";
     }
