@@ -37,7 +37,8 @@ public class AuthController : ControllerBase
             {
                 Login = privateRegisterRequestDTO.Login,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(privateRegisterRequestDTO.Password),
-                BirthDate = privateRegisterRequestDTO.BirthDate
+                BirthDate = privateRegisterRequestDTO.BirthDate,
+                Status = PrivateStatus.New
             });
             await _context.SaveChangesAsync();
 

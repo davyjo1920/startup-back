@@ -21,6 +21,8 @@ public class PrivateController : ControllerBase
 
     [HttpGet]
     public async Task<List<PrivateResponseDTO>> GetProfiles(){
+        var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
         var list = await _context.Privates
             .Where(x => x.Status == PrivateStatus.Active)
             .Select(x => _mapper.Map<PrivateResponseDTO>(x))
@@ -51,7 +53,7 @@ public class PrivateController : ControllerBase
 
     [Authorize(Roles = "Private")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem([FromBody] PrivateUpdateRequestDTO model, int id)
+    public async Task<IActionResult> UpdateProfile([FromBody] PrivateUpdateRequestDTO model, int id)
     {
         var username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
         var privateDbModel = await _context.Privates
