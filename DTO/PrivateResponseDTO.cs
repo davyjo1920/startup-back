@@ -1,6 +1,6 @@
-public class Private
+public class PrivateResponseDTO
 {
-    public int Id { get; set; }
+     public int Id { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
 
@@ -9,8 +9,8 @@ public class Private
     public string? Telegram { get; set; }
     public string? WhatsApp { get; set; }
 
-   public string? Login { get; set; }
-   public string? PasswordHash { get; set; }
+   public string Login { get; set; }
+   public string PasswordHash { get; set; }
 
     public int? CityId { get; set; }
     public City? City { get; set; }

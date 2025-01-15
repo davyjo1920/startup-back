@@ -72,15 +72,15 @@ public class AuthController : ControllerBase
 
     // Тестовый метод для проверки авторизации admin
     [Authorize(Roles = "Admin")]
-    [HttpGet("testauthAdmin")]
+    [HttpGet("testAuthAdmin")]
     public string TestAdminLMethod(long id)
     {
        return "OK";
     }
 
-// Тестовый метод для проверки авторизации private
+    // Тестовый метод для проверки авторизации private
     [Authorize(Roles = "Private")]
-    [HttpGet("testauthPrivate")]
+    [HttpGet("testAuthPrivate")]
     public string TestPrivateMethod(long id)
     {
        return "OK";

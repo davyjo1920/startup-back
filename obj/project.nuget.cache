@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "0cnkg3gR1Ro=",
+  "dgSpecHash": "xePbetGLWRQ=",
   "success": true,
   "projectFilePath": "/Users/admin/Documents/GitHub/startup-back/TodoApi.csproj",
   "expectedPackageFiles": [
+    "/Users/admin/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
     "/Users/admin/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/admin/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",
     "/Users/admin/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",

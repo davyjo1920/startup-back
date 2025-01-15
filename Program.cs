@@ -22,6 +22,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var Configuration = builder.Configuration;
 builder.Services.AddDbContext<MarketplaceContext>(options =>
