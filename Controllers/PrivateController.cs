@@ -51,10 +51,13 @@ public class PrivateController : ControllerBase
 
     [Authorize(Roles = "Private")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutTodoItem([FromBody] Private model, int id)
+    public async Task<IActionResult> PutTodoItem([FromBody] PrivateUpdateRequestDTO model, int id)
     {
         var username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-        var privateDbModel = await _context.Privates.FindAsync(id);
+        var privateDbModel = await _context.Privates
+            .Include(x => x.Tags)
+            .Include(x => x.Subways)
+            .FirstOrDefaultAsync(x => x.Id == id);
 
         if (privateDbModel == null)
         {
@@ -64,29 +67,27 @@ public class PrivateController : ControllerBase
         if (username != privateDbModel.Login)
             return Unauthorized();
 
-        privateDbModel.Name = model.Name;
-        privateDbModel.Description = model.Description;
-        privateDbModel.Telegram = model.Telegram;
-        privateDbModel.WhatsApp = model.WhatsApp;
-        privateDbModel.CityId = model.CityId;
-        privateDbModel.Latitude = model.Latitude;
+        _mapper.Map(model, privateDbModel);
 
+        privateDbModel.Tags = model.TagIds?
+            .Select(x => new PrivateTag
+            {
+                PrivateId = id,
+                TagId = x
+            })
+            .ToList();
 
-
-
-
-
-        // ?? КАК быть с Тегами???
-
-
-
-
-
-
-        privateDbModel.Tags = model.Tags;
+        _mapper.Map(model, privateDbModel);
+        privateDbModel.Subways = model.SubwayIds?
+            .Select(x => new PrivateSubway
+            {
+                PrivateId = id,
+                SubwayId = x
+            })
+            .ToList();
 
         await _context.SaveChangesAsync();
 
-        return Ok(privateDbModel);
+        return Ok();
     }
 }

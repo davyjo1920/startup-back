@@ -4,4 +4,5 @@ public class Photo
     public string Path { get; set; }
     public bool IsPrimary { get; set; }
     public int PrivateId { get; set; }
+    public Private Private { get; set; }
 }

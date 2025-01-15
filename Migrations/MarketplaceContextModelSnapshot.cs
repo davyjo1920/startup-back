@@ -77,7 +77,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("Login")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<double?>("Longitude")
@@ -87,7 +86,6 @@ namespace TodoApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("Status")
@@ -107,23 +105,30 @@ namespace TodoApi.Migrations
                     b.ToTable("Privates");
                 });
 
-            modelBuilder.Entity("PrivateTag", b =>
+            modelBuilder.Entity("PrivateSubway", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PrivateId")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<int>("SubwayId")
+                        .HasColumnType("integer");
 
+                    b.HasKey("PrivateId", "SubwayId");
+
+                    b.HasIndex("SubwayId");
+
+                    b.ToTable("PrivateSubway");
+                });
+
+            modelBuilder.Entity("PrivateTag", b =>
+                {
                     b.Property<int>("PrivateId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TagId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("PrivateId");
+                    b.HasKey("PrivateId", "TagId");
 
                     b.HasIndex("TagId");
 
@@ -149,12 +154,7 @@ namespace TodoApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("PrivateId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PrivateId");
 
                     b.ToTable("Subways");
                 });
@@ -220,11 +220,32 @@ namespace TodoApi.Migrations
 
             modelBuilder.Entity("Photo", b =>
                 {
-                    b.HasOne("Private", null)
+                    b.HasOne("Private", "Private")
                         .WithMany("Photos")
                         .HasForeignKey("PrivateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Private");
+                });
+
+            modelBuilder.Entity("PrivateSubway", b =>
+                {
+                    b.HasOne("Private", "Private")
+                        .WithMany("Subways")
+                        .HasForeignKey("PrivateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Subway", "Subway")
+                        .WithMany("Privates")
+                        .HasForeignKey("SubwayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Private");
+
+                    b.Navigation("Subway");
                 });
 
             modelBuilder.Entity("PrivateTag", b =>
@@ -236,7 +257,7 @@ namespace TodoApi.Migrations
                         .IsRequired();
 
                     b.HasOne("Tag", "Tag")
-                        .WithMany()
+                        .WithMany("Privates")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -246,13 +267,6 @@ namespace TodoApi.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("Subway", b =>
-                {
-                    b.HasOne("Private", null)
-                        .WithMany("Subways")
-                        .HasForeignKey("PrivateId");
-                });
-
             modelBuilder.Entity("Private", b =>
                 {
                     b.Navigation("Photos");
@@ -260,6 +274,16 @@ namespace TodoApi.Migrations
                     b.Navigation("Subways");
 
                     b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("Subway", b =>
+                {
+                    b.Navigation("Privates");
+                });
+
+            modelBuilder.Entity("Tag", b =>
+                {
+                    b.Navigation("Privates");
                 });
 #pragma warning restore 612, 618
         }

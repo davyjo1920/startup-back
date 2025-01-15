@@ -19,7 +19,6 @@ public class Private
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
 
-    public ICollection<Subway>? Subways { get; set; }
     public string? District { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -29,4 +28,7 @@ public class Private
     // Связь с тегами (многие-ко-многим)
     public ICollection<PrivateTag>? Tags { get; set; }
     public ICollection<Photo>? Photos { get; set; }
+
+    // Связь с метро (многие-ко-многим)
+     public ICollection<PrivateSubway>? Subways { get; set; }
 }

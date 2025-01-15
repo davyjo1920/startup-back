@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TodoApi.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class seedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,8 +25,8 @@ namespace TodoApi.Migrations
                     BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Telegram = table.Column<string>(type: "text", nullable: true),
                     WhatsApp = table.Column<string>(type: "text", nullable: true),
-                    Login = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    Login = table.Column<string>(type: "text", nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
                     CityId = table.Column<int>(type: "integer", nullable: true),
                     City = table.Column<int>(type: "integer", nullable: true),
                     Latitude = table.Column<double>(type: "double precision", nullable: true),
@@ -39,6 +39,21 @@ namespace TodoApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Privates", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Subways",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Color = table.Column<string>(type: "text", nullable: false),
+                    CityId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subways", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,38 +106,39 @@ namespace TodoApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Subways",
+                name: "PrivateSubway",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Color = table.Column<string>(type: "text", nullable: false),
-                    CityId = table.Column<int>(type: "integer", nullable: false),
-                    PrivateId = table.Column<int>(type: "integer", nullable: true)
+                    PrivateId = table.Column<int>(type: "integer", nullable: false),
+                    SubwayId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Subways", x => x.Id);
+                    table.PrimaryKey("PK_PrivateSubway", x => new { x.PrivateId, x.SubwayId });
                     table.ForeignKey(
-                        name: "FK_Subways_Privates_PrivateId",
+                        name: "FK_PrivateSubway_Privates_PrivateId",
                         column: x => x.PrivateId,
                         principalTable: "Privates",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrivateSubway_Subways_SubwayId",
+                        column: x => x.SubwayId,
+                        principalTable: "Subways",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PrivateTags",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PrivateId = table.Column<int>(type: "integer", nullable: false),
                     TagId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PrivateTags", x => x.Id);
+                    table.PrimaryKey("PK_PrivateTags", x => new { x.PrivateId, x.TagId });
                     table.ForeignKey(
                         name: "FK_PrivateTags_Privates_PrivateId",
                         column: x => x.PrivateId,
@@ -153,19 +169,14 @@ namespace TodoApi.Migrations
                 column: "PrivateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrivateTags_PrivateId",
-                table: "PrivateTags",
-                column: "PrivateId");
+                name: "IX_PrivateSubway_SubwayId",
+                table: "PrivateSubway",
+                column: "SubwayId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrivateTags_TagId",
                 table: "PrivateTags",
                 column: "TagId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Subways_PrivateId",
-                table: "Subways",
-                column: "PrivateId");
         }
 
         /// <inheritdoc />
@@ -175,19 +186,22 @@ namespace TodoApi.Migrations
                 name: "Photos");
 
             migrationBuilder.DropTable(
-                name: "PrivateTags");
+                name: "PrivateSubway");
 
             migrationBuilder.DropTable(
-                name: "Subways");
+                name: "PrivateTags");
 
             migrationBuilder.DropTable(
                 name: "TodoItems");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "Subways");
 
             migrationBuilder.DropTable(
                 name: "Privates");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }

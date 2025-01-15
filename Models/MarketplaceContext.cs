@@ -19,6 +19,37 @@ public class MarketplaceContext : DbContext
             new TodoItem { Id = 2, Name = "Write migrations", IsComplete = false },
             new TodoItem { Id = 3, Name = "Deploy to production", IsComplete = false }
         );
+
+        modelBuilder.Entity<PrivateTag>()
+            .HasKey(pc => new { pc.PrivateId, pc.TagId });
+
+        modelBuilder.Entity<PrivateTag>()
+            .HasOne(pc => pc.Private)
+            .WithMany(p => p.Tags)
+            .HasForeignKey(pc => pc.PrivateId);
+
+        modelBuilder.Entity<PrivateTag>()
+            .HasOne(pc => pc.Tag)
+            .WithMany(c => c.Privates)
+            .HasForeignKey(pc => pc.TagId);
+
+        modelBuilder.Entity<Photo>()
+            .HasOne(pc => pc.Private)
+            .WithMany(p => p.Photos)
+            .HasForeignKey(pc => pc.PrivateId);
+
+        modelBuilder.Entity<PrivateSubway>()
+            .HasKey(pc => new { pc.PrivateId, pc.SubwayId });
+
+        modelBuilder.Entity<PrivateSubway>()
+            .HasOne(pc => pc.Private)
+            .WithMany(p => p.Subways)
+            .HasForeignKey(pc => pc.PrivateId);
+
+        modelBuilder.Entity<PrivateSubway>()
+            .HasOne(pc => pc.Subway)
+            .WithMany(c => c.Privates)
+            .HasForeignKey(pc => pc.SubwayId);
     }
 
     public DbSet<TodoItem> TodoItems { get; set; }

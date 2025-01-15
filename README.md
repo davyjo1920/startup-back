@@ -10,9 +10,6 @@ docker build -t dotnet-app .
 docker run -p 5256:5256 --name dotnet-app-cotnainer dotnet-app:latest
 
 ## Ручной запуск приложения
-<!-- Для наката новой миграции вызова  -->
-dotnet ef migrations add seedData
-
 dotnet ef database update
 dotnet run
 
